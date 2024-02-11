@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "export",
   reactStrictMode: true,
   images: {
     unoptimized: true, // If you're following the solution to disable image optimization
   },
-  basePath: "/nextjs-portfolio",
-  assetPrefix: "/nextjs-portfolio/",
-  output: "export",
+  basePath: "",
+  assetPrefix: "",
 };
 
 export default nextConfig;
