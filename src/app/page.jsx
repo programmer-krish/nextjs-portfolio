@@ -24,6 +24,13 @@ export const slideIn = (direction, type, delay, duration) => {
   };
 };
 
+const handleEmailClick = () => {
+  const email = "rkrishnamohan96@gmail.com";
+  const subject = encodeURIComponent("Subject Line Here"); // Optional: Predefine a subject
+  const emailBody = encodeURIComponent("Hello Krishnamohan,"); // Optional: Predefine an email body
+  window.open(`mailto:${email}?subject=${subject}&body=${emailBody}`);
+};
+
 const Homepage = () => {
   const [textColor, setTextColor] = useState("#d96c23");
 
@@ -86,7 +93,9 @@ const Homepage = () => {
               className="p-4 rounded-lg ring-1 ring-black bg-black text-white inline-flex items-center justify-center">
               View My Resume
             </a>
-            <button className="p-4 rounded-lg ring-1 ring-black">
+            <button
+              className="p-4 rounded-lg ring-1 ring-black"
+              onClick={handleEmailClick}>
               Ping Me
             </button>
           </div>
