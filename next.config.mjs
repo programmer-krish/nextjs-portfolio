@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   basePath: "/github-pages",
   images: {
-    domains: ["images.pexels.com", "media.licdn.com"],
+    remotePatterns: ["images.pexels.com", "media.licdn.com"],
   },
 };
 
