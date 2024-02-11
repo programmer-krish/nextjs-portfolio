@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  basePath: "/github-pages",
   images: {
-    domains: ["img.freepik.com", "images.pexels.com", "media.licdn.com"],
+    domains: ["images.pexels.com", "media.licdn.com"],
   },
 };
 
