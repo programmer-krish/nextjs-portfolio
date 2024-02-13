@@ -94,19 +94,21 @@ const FlipCard = ({ item }) => {
           <div className="px-6 py-4 flex flex-col justify-center h-full bg-gradient-to-r from-blue-500 to-slate-900">
             <h1 className="font-bold text-xl mb-2 text-white">{item.title}</h1>
             <p className="text-white text-base">{item.desc}</p>
-            <a
-              href={item.link}
-              className="mt-4 bg-white text-gray-600 font-semibold py-2 px-4 rounded self-end">
-              See Demo
-            </a>
           </div>
         </motion.div>
 
         {/* Back of the card */}
         <motion.div
-          className="absolute w-full h-full"
+          className="absolute w-full h-full flex items-center justify-center"
           style={{ rotateY: 180, backfaceVisibility: "hidden" }}>
           <Image src={item.img} alt="" layout="fill" objectFit="cover" />
+          <a
+            href={item.link}
+            className="absolute bg-white text-gray-600 font-semibold py-2 px-4 rounded"
+            style={{ zIndex: 10 }} // Ensure the button is above the image
+          >
+            See Demo
+          </a>
         </motion.div>
       </motion.div>
     </div>
