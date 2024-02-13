@@ -68,6 +68,51 @@ const testimonials = [
   //Ali Ahamed Thowfeek
 ];
 
+const FlipCard = ({ item }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const flipCardVariants = {
+    front: { rotateY: 0 },
+    back: { rotateY: 180 },
+  };
+
+  return (
+    <div
+      className="relative w-[30rem] h-[25rem] m-8 shadow-lg rounded-lg overflow-hidden"
+      onMouseEnter={() => setIsFlipped(true)}
+      onMouseLeave={() => setIsFlipped(false)}>
+      <motion.div
+        className="absolute w-full h-full"
+        variants={flipCardVariants}
+        animate={isFlipped ? "back" : "front"}
+        transition={{ duration: 0.6 }}
+        style={{ transformStyle: "preserve-3d" }}>
+        {/* Front of the card */}
+        <motion.div
+          className="absolute w-full h-full"
+          style={{ backfaceVisibility: "visible" }}>
+          <div className="px-6 py-4 flex flex-col justify-center h-full bg-gradient-to-r from-blue-500 to-slate-900">
+            <h1 className="font-bold text-xl mb-2 text-white">{item.title}</h1>
+            <p className="text-white text-base">{item.desc}</p>
+            <a
+              href={item.link}
+              className="mt-4 bg-white text-gray-600 font-semibold py-2 px-4 rounded self-end">
+              See Demo
+            </a>
+          </div>
+        </motion.div>
+
+        {/* Back of the card */}
+        <motion.div
+          className="absolute w-full h-full"
+          style={{ rotateY: 180, backfaceVisibility: "hidden" }}>
+          <Image src={item.img} alt="" layout="fill" objectFit="cover" />
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+};
+
 const PortfolioPage = () => {
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const ref = useRef();
@@ -121,36 +166,14 @@ const PortfolioPage = () => {
       initial={{ y: "-200vh" }}
       animate={{ y: "0%" }}
       transition={{ duration: 1 }}>
-      <div className="h-[600vh] relative" ref={ref}>
-        <div className="w-screen h-[calc(100vh-6rem)] flex items-center justify-center text-8xl text-center">
-          My Works
+      <div className=" relative bg-blue-200" ref={ref}>
+        <div className="w-screen  flex items-center justify-center text-6xl text-center mt-2">
+          Projects
         </div>
-        <div className="sticky top-0 flex h-screen gap-4 items-center overflow-hidden">
-          <motion.div style={{ x }} className="flex">
-            <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-purple-300 to-red-300" />
-            {items.map((item) => (
-              <div
-                className={`h-screen w-screen flex items-center justify-center bg-gradient-to-r ${item.color}`}
-                key={item.id}>
-                <div className="flex flex-col gap-8 text-white">
-                  <h1 className="text-xl font-bold md:text-4xl lg:text-6xl xl:text-8xl">
-                    {item.title}
-                  </h1>
-                  <div className="relative w-80 h-56 md:w-96 md:h-64 lg:w-[500px] lg:h-[350px] xl:w-[600px] xl:h-[420px]">
-                    <Image src={item.img} alt="" fill />
-                  </div>
-                  <p className="w-80 md:w96 lg:w-[500px] lg:text-lg xl:w-[600px]">
-                    {item.desc}
-                  </p>
-                  <Link href={item.link} className="flex justify-end">
-                    <button className="p-2 text-sm md:p-4 md:text-md lg:p-8 lg:text-lg bg-white text-gray-600 font-semibold m-4 rounded">
-                      See Demo
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </motion.div>
+        <div className="flex justify-center items-center flex-wrap mt-8 ">
+          {items.map((item) => (
+            <FlipCard key={item.id} item={item} />
+          ))}
         </div>
       </div>
       {/* Testimonials Section */}
