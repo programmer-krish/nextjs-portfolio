@@ -30,7 +30,7 @@ const AboutPage = () => {
           <div className="flex flex-col gap-12 justify-center">
             {/* BIOGRAPHY IMAGE */}
             <Image
-              src="https://media.licdn.com/dms/image/D5603AQGPfeaXQtJfhA/profile-displayphoto-shrink_800_800/0/1701794783438?e=1713398400&v=beta&t=KqX8A_-hLOhLuNuZkbLLvJLlUj0sYkhCAC7UnSI1WVk"
+              src="https://media.licdn.com/dms/image/D5603AQG47IO6Fe49PQ/profile-displayphoto-shrink_800_800/0/1711621346035?e=1720656000&v=beta&t=QnSjpNYlw6Trrd9suFd1uyzQbw-L4kxVqpSdECEv_Co"
               alt=""
               width={112}
               height={112}
