@@ -41,6 +41,16 @@ const items = [
 
 const testimonials = [
   {
+    name: "Jeremy Hastings",
+    review:
+      "Krishna was a valuable member of the team and did an excellent job. Solid skills and a pleasure to work with. Also a very good table tennis partner 🏓",
+  },
+  {
+    name: "Dinusha Ambagahawita",
+    review:
+      "Krishna is an exceptionally talented engineer/tech-lead who thrives in fast-paced environments. His ability to learn quickly and adapt to new challenges is remarkable. He consistently produces optimised code and demonstrates outstanding analytical skills. I had the pleasure of collaborating with him on a complex project, where his strong problem-solving capabilities and quick thinking made a significant impact. Working with Krishna is a great experience, and I truly appreciate his commitment to excellence",
+  },
+  {
     name: "Dakshika Cooray",
     review:
       "While Krishna and I have not worked together in a corporate capacity, we have been heavily involved together in extra-curriculars such as employee engagement activities and CSR during our time at Swivel Group. He has always been very forthcoming and helpful, as well as being very efficient in managing his responsibilities and ensuring that everything is up-to-date. He will constantly be in communication, so the whole team is aware of the status of his workload. He was a delight and an a pleasure to work with as well as a colleague I would definitely love to work together with again. I wish him all the best!",
@@ -65,7 +75,6 @@ const testimonials = [
     review:
       "Krishna and I worked together during the time at EatMe Global. He is a very good communicator and he has a good personality. He consistently gave 100 percent effort to the team and played a significant role in ensuring that we completed assignments on time. I would recommend Krishna for any team out there. I'm pretty sure he will shine.",
   },
-  //Ali Ahamed Thowfeek
 ];
 
 const FlipCard = ({ item }) => {
@@ -168,7 +177,7 @@ const PortfolioPage = () => {
       initial={{ y: "-200vh" }}
       animate={{ y: "0%" }}
       transition={{ duration: 1 }}>
-      <div className=" relative bg-blue-200" ref={ref}>
+      {/* <div className=" relative bg-blue-200" ref={ref}>
         <div className="w-screen  flex items-center justify-center text-6xl text-center mt-2">
           Projects
         </div>
@@ -177,7 +186,7 @@ const PortfolioPage = () => {
             <FlipCard key={item.id} item={item} />
           ))}
         </div>
-      </div>
+      </div> */}
       {/* Testimonials Section */}
       <div className="w-screen py-16 bg-gradient-to-r from-red-300 to-green-300">
         <h2 className="text-4xl text-center font-semibold mb-12">
