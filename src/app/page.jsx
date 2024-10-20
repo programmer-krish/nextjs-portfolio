@@ -88,10 +88,9 @@ const Homepage = () => {
           </p>
           <div className="w-full flex gap-4">
             <a
-              href="/Krishnamohan Ramachandran CV 2024.pdf"
               download="Krishnamohan Ramachandran CV 2024.pdf"
               className="p-4 rounded-lg ring-1 ring-black bg-black text-white inline-flex items-center justify-center">
-              View My Resume
+              Contact me for the CV
             </a>
             <button
               className="p-4 rounded-lg ring-1 ring-black"
