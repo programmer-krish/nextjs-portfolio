@@ -24,7 +24,7 @@ export const slideIn = (direction, type, delay, duration) => {
   };
 };
 
-const handleEmailClick = () => {
+export const handleEmailClick = () => {
   const email = "rkrishnamohan96@gmail.com";
   const subject = encodeURIComponent("Subject Line Here"); // Optional: Predefine a subject
   const emailBody = encodeURIComponent("Hello Krishnamohan,"); // Optional: Predefine an email body

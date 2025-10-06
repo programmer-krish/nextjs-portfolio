@@ -1,7 +1,7 @@
 "use client";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-
+import { handleEmailClick } from "../page";
 // --- DATA ---
 const items = [
   {
@@ -275,7 +275,8 @@ const PortfolioPage = () => {
             </text>
           </motion.svg>
           <motion.a
-            href="/contact"
+            href="mailto:"
+            onChange={handleEmailClick}
             className="w-20 h-20 md:w-28 md:h-28 absolute top-0 left-0 right-0 bottom-0 m-auto bg-white text-slate-900 rounded-full flex items-center justify-center font-semibold text-lg"
             whileHover={{ scale: 1.1 }}
             animate={{ scale: [1, 1.05, 1] }}
