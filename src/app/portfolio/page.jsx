@@ -1,6 +1,7 @@
 "use client";
-import { motion, useAnimation, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { handleEmailClick } from "../page";
 // --- DATA ---
 const items = [
@@ -140,10 +141,11 @@ const FlipCard = ({ item }) => {
             backfaceVisibility: "hidden",
           }}>
           {/* Background image for the back */}
-          <img
+          <Image
             src={item.img}
             alt={item.title}
-            className="absolute w-full h-full object-cover saturate-50"
+            fill
+            className="object-cover saturate-50"
           />
           {/* Overlay to darken the image */}
           <div className="absolute inset-0 bg-black/50"></div>
