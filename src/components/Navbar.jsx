@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 const links = [
   { url: "/", title: "Home" },
   { url: "/about", title: "About" },
+  { url: "/academic", title: "Academic" },
   { url: "/portfolio", title: "Portfolio" },
 ];
 

@@ -1,8 +1,53 @@
 "use client";
 import Brain from "@/components/brain";
-import { motion, useInView, useScroll } from "framer-motion";
+import { motion, useInView, useScroll, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+
+// Skills data with icon URLs from DevIcons CDN
+const skills = [
+  { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+  { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+  { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+  { name: "React Native", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+  { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
+  { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+  { name: "Nest.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-plain.svg" },
+  { name: "Express", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" },
+  { name: "Fastify", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
+  { name: "HTML5", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
+  { name: "CSS3", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
+  { name: "SCSS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" },
+  { name: "Tailwind CSS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+  { name: "Electron", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/electron/electron-original.svg" },
+  { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" },
+  { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+  { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" },
+  { name: "DynamoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg" },
+  { name: "SQLite", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" },
+  { name: "Redis", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" },
+  { name: "Prisma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prisma/prisma-original.svg" },
+  { name: "Sequelize", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sequelize/sequelize-original.svg" },
+  { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg" },
+  { name: "Azure", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" },
+  { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
+  { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
+  { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
+  { name: "GitLab", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg" },
+  { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
+  { name: "C#", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" },
+  { name: ".NET", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg" },
+  { name: "GraphQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" },
+  { name: "Apollo", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apollographql/apollographql-original.svg" },
+  { name: "Redux", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg" },
+  { name: "Framer Motion", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/framer/framer-original.svg" },
+  { name: "Three.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/threejs/threejs-original.svg" },
+  { name: "Webpack", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg" },
+  { name: "Vite", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg" },
+  { name: "Firebase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" },
+  { name: "Jest", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" },
+  { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
+];
 
 const AboutPage = () => {
   const containerRef = useRef();
@@ -113,75 +158,29 @@ const AboutPage = () => {
               initial={{ x: "-300px" }}
               animate={isSkillRefInView ? { x: 0 } : {}}
               className="flex gap-4 flex-wrap">
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                JavaScript
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                TypeScript
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                React.js
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Next.js
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                SCSS
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Tailwind CSS
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                MongoDB
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                PostgreSQL
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Node.js
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Nest.js
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Express.js
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                GraphQL
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Apollo
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Redux
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Framer Motion
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Three.js
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Webpack
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Vite
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Docker
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                AWS
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Firebase
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Git
-              </div>
-              <div className="rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10">
-                Figma
-              </div>
+              {skills.map((skill, index) => (
+                <motion.div
+                  key={skill.name}
+                  className="group relative flex items-center gap-2 rounded p-2 text-sm cursor-pointer bg-white/10 text-slate-100 hover:bg-white/20 backdrop-blur-sm border border-white/10"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ delay: index * 0.03 }}>
+                  <div className="w-5 h-5 relative flex-shrink-0">
+                    <img
+                      src={skill.icon}
+                      alt={skill.name}
+                      className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity"
+                      loading="lazy"
+                      onError={(e) => {
+                        // Fallback if icon fails to load
+                        e.target.style.display = "none";
+                      }}
+                    />
+                  </div>
+                  <span className="text-sm font-medium">{skill.name}</span>
+                </motion.div>
+              ))}
             </motion.div>
             {/* SKILL SCROLL SVG */}
             <motion.svg
@@ -223,29 +222,55 @@ const AboutPage = () => {
               className="">
               {/* EXPERIENCE LIST ITEM */}
               <motion.div
-                className="flex justify-between h-48"
+                className="flex justify-between min-h-[300px]"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5 }}>
                 {/* LEFT */}
-                <div className="w-1/3 ">
+                <div className="w-1/3">
                   {/* JOB TITLE */}
                   <div className="bg-white/10 border border-white/10 backdrop-blur-sm p-3 font-semibold rounded-b-lg rounded-s-lg">
-                    Senior Software Engineer
+                    Associate Tech Lead
                   </div>
-                  {/* JOB DESC */}
-                  <div className="p-3 text-sm italic text-slate-300">
-                    Smart Audio Capture: Unlocking Efficiency at Scale for a
-                    Regtech Client
+                  {/* PROJECT DETAILS */}
+                  <div className="p-3 space-y-3">
+                    <div>
+                      <div className="text-xs text-sky-400 font-semibold mb-1">
+                        Project: Fan Engagement Platform
+                      </div>
+                      <div className="text-xs text-slate-400 space-y-1">
+                        <div>
+                          <span className="text-slate-300">Frontend:</span> React
+                          Native / Context / TypeScript
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Backend:</span> Node /
+                          Serverless / App Store & Play Store Payment
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Database:</span>{" "}
+                          DynamoDB
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Cloud:</span> AWS API
+                          Gateway, CloudWatch, SQS (FIFO & Standard), Lambda
+                          Authorizers, ElastiCache, S3
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Tools:</span> GitLab,
+                          VS Code
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   {/* JOB DATE */}
                   <div className="p-3 text-sky-400 text-sm font-semibold">
-                    2024 - Present
+                    Aug 2024 - Present
                   </div>
                   {/* JOB COMPANY */}
                   <div className="p-1 rounded bg-white/10 border border-white/10 text-sm font-semibold w-fit">
-                    Insighture
+                    Insighture | Singapore
                   </div>
                 </div>
                 {/* CENTER */}
@@ -261,7 +286,7 @@ const AboutPage = () => {
               </motion.div>
               {/* EXPERIENCE LIST ITEM */}
               <motion.div
-                className="flex justify-between h-48"
+                className="flex justify-between min-h-[400px]"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
@@ -277,50 +302,131 @@ const AboutPage = () => {
                   </div>
                 </div>
                 {/* RIGHT */}
-                <div className="w-1/3 ">
+                <div className="w-1/3">
                   {/* JOB TITLE */}
                   <div className="bg-white/10 border border-white/10 backdrop-blur-sm p-3 font-semibold rounded-b-lg rounded-s-lg">
                     Senior Software Engineer
                   </div>
-                  {/* JOB DESC */}
-                  <div className="p-3 text-sm italic text-slate-300">
-                    Worked for a Legtech client in Australia.
+                  {/* PROJECT DETAILS */}
+                  <div className="p-3 space-y-3">
+                    <div>
+                      <div className="text-xs text-sky-400 font-semibold mb-1">
+                        Project: Regtech (CoreApp)
+                      </div>
+                      <div className="text-xs text-slate-400 space-y-1">
+                        <div>
+                          <span className="text-slate-300">Frontend:</span> React /
+                          Redux / Context
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Backend:</span> Node /
+                          Fastify / Sequelize ORM
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Database:</span>{" "}
+                          PostgreSQL
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Cloud:</span> AWS &
+                          Azure
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-sky-400 font-semibold mb-1">
+                        Project: Regtech (RecorderApp)
+                      </div>
+                      <div className="text-xs text-slate-400 space-y-1">
+                        <div>
+                          <span className="text-slate-300">Frontend:</span> React /
+                          Electron
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Backend:</span> Node /
+                          Fastify / Sequelize ORM / Redis
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Database:</span> SQLite
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Cloud:</span> AWS
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-sky-400 font-semibold mb-1">
+                        Project: Regtech (ASR Application)
+                      </div>
+                      <div className="text-xs text-slate-400 space-y-1">
+                        <div>
+                          <span className="text-slate-300">Backend:</span> C# / .NET
+                          2.1
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Cloud:</span> Azure
+                          Cognitive Services
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-xs text-slate-400">
+                      <span className="text-slate-300">Tools:</span> GitHub, VS Code
+                    </div>
                   </div>
                   {/* JOB DATE */}
                   <div className="p-3 text-sky-400 text-sm font-semibold">
-                    2023 - 2023{" "}
+                    Oct 2023 - Jul 2024
                   </div>
                   {/* JOB COMPANY */}
                   <div className="p-1 rounded bg-white/10 border border-white/10 text-sm font-semibold w-fit">
-                    ItelaSoft
+                    Insighture | Singapore
                   </div>
                 </div>
               </motion.div>
               {/* EXPERIENCE LIST ITEM */}
               <motion.div
-                className="flex justify-between h-48"
+                className="flex justify-between min-h-[300px]"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: 0.1 }}>
                 {/* LEFT */}
-                <div className="w-1/3 ">
+                <div className="w-1/3">
                   {/* JOB TITLE */}
                   <div className="bg-white/10 border border-white/10 backdrop-blur-sm p-3 font-semibold rounded-b-lg rounded-s-lg">
-                    Software Engineer
+                    Senior Software Engineer
                   </div>
-                  {/* JOB DESC */}
-                  <div className="p-3 text-sm italic text-slate-300">
-                    A subsidiary of Swivel Group, Swivel Tech is an
-                    Australian-based Technology firm that specializes in
-                    Software Development.
+                  {/* PROJECT DETAILS */}
+                  <div className="p-3 space-y-3">
+                    <div>
+                      <div className="text-xs text-sky-400 font-semibold mb-1">
+                        Project: LegTech Domain
+                      </div>
+                      <div className="text-xs text-slate-400 space-y-1">
+                        <div>
+                          <span className="text-slate-300">Frontend:</span> React JS
+                          / Redux
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Backend:</span> Node /
+                          TypeScript / Prisma ORM / MySQL
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Cloud:</span> AWS S3, SES,
+                          CloudWatch
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Tools:</span> Bitbucket,
+                          Docker, Redis
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   {/* JOB DATE */}
                   <div className="p-3 text-sky-400 text-sm font-semibold">
-                    2022 - 2023{" "}
+                    Jul 2023 - Oct 2023
                   </div>
-                  <div className="p-1 rounded bg-white text-sm font-semibold w-fit">
-                    Swivel Tech
+                  <div className="p-1 rounded bg-white/10 border border-white/10 text-sm font-semibold w-fit">
+                    ItelaSoft | Colombo
                   </div>
                 </div>
                 {/* CENTER */}
@@ -334,9 +440,14 @@ const AboutPage = () => {
                 {/* RIGHT */}
                 <div className="w-1/3 "></div>
               </motion.div>
-              <div className="flex justify-between h-48">
+              <motion.div
+                className="flex justify-between min-h-[400px]"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5, delay: 0.15 }}>
                 {/* LEFT */}
-                <div className="w-1/3 "></div>
+                <div className="w-1/3"></div>
                 {/* CENTER */}
                 <div className="w-1/6 flex justify-center">
                   {/* LINE */}
@@ -346,43 +457,120 @@ const AboutPage = () => {
                   </div>
                 </div>
                 {/* RIGHT */}
-                <div className="w-1/3 ">
+                <div className="w-1/3">
+                  {/* JOB TITLE */}
+                  <div className="bg-white/10 border border-white/10 backdrop-blur-sm p-3 font-semibold rounded-b-lg rounded-s-lg">
+                    Software Engineer
+                  </div>
+                  {/* PROJECT DETAILS */}
+                  <div className="p-3 space-y-3">
+                    <div>
+                      <div className="text-xs text-sky-400 font-semibold mb-1">
+                        Project: Fupay
+                      </div>
+                      <div className="text-xs text-slate-400 space-y-1">
+                        <div>
+                          <span className="text-slate-300">Frontend:</span> React JS
+                          / Context API
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Backend:</span> Node /
+                          TypeScript / Serverless
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Database:</span> DynamoDB
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Cloud:</span> AWS Lambda,
+                          API Gateway, CloudWatch
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-sky-400 font-semibold mb-1">
+                        Project: Your Voice
+                      </div>
+                      <div className="text-xs text-slate-400 space-y-1">
+                        <div>
+                          <span className="text-slate-300">Frontend:</span> React JS
+                          / Context API
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Backend:</span> Node /
+                          TypeScript / Serverless
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Database:</span> DynamoDB
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Cloud:</span> AWS Lambda,
+                          API Gateway, CloudWatch
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Tools:</span> GitHub
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* JOB DATE */}
+                  <div className="p-3 text-sky-400 text-sm font-semibold">
+                    Jun 2022 - Jul 2023
+                  </div>
+                  {/* JOB COMPANY */}
+                  <div className="p-1 rounded bg-white/10 border border-white/10 text-sm font-semibold w-fit">
+                    Swivel Tech | Melbourne
+                  </div>
+                </div>
+              </motion.div>
+              <motion.div
+                className="flex justify-between min-h-[350px]"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5, delay: 0.2 }}>
+                {/* LEFT */}
+                <div className="w-1/3">
                   {/* JOB TITLE */}
                   <div className="bg-white/10 border border-white/10 backdrop-blur-sm p-3 font-semibold rounded-b-lg rounded-s-lg">
                     Full Stack Engineer
                   </div>
-                  {/* JOB DESC */}
-                  <div className="p-3 text-sm italic text-slate-300">
-                    Worked for a Food Tech client in Singapore.
+                  {/* PROJECT DETAILS */}
+                  <div className="p-3 space-y-3">
+                    <div>
+                      <div className="text-xs text-sky-400 font-semibold mb-1">
+                        Projects: Eat Me Admin Panel (BE) / Restaurant Manager
+                        (Full Stack)
+                      </div>
+                      <div className="text-xs text-slate-400 space-y-1">
+                        <div>
+                          <span className="text-slate-300">Frontend:</span> React /
+                          Redux / Redux Thunk
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Backend:</span> Node /
+                          Express
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Database:</span> MySQL
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Testing:</span> Mocha/Chai
+                          (BE), Jest (FE)
+                        </div>
+                        <div>
+                          <span className="text-slate-300">Tools:</span> Bitbucket,
+                          ClickUp
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   {/* JOB DATE */}
                   <div className="p-3 text-sky-400 text-sm font-semibold">
-                    2021 - 2022{" "}
+                    Jun 2021 - May 2022
                   </div>
                   {/* JOB COMPANY */}
                   <div className="p-1 rounded bg-white/10 border border-white/10 text-sm font-semibold w-fit">
-                    EatMe Singapore
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-between h-48">
-                {/* LEFT */}
-                <div className="w-1/3 ">
-                  {/* JOB TITLE */}
-                  <div className="bg-white/10 border border-white/10 backdrop-blur-sm p-3 font-semibold rounded-b-lg rounded-s-lg">
-                    Freelance Software Engineer
-                  </div>
-                  {/* JOB DESC */}
-                  <div className="p-3 text-sm italic text-slate-300">
-                    Worked for UAE client for web based projects.
-                  </div>
-                  {/* JOB DATE */}
-                  <div className="p-3 text-sky-400 text-sm font-semibold">
-                    2021 - 2021
-                  </div>
-                  {/* JOB COMPANY */}
-                  <div className="p-1 rounded bg-white/10 border border-white/10 text-sm font-semibold w-fit">
-                    Freelance
+                    Eat Me Singapore
                   </div>
                 </div>
                 {/* CENTER */}
@@ -394,39 +582,8 @@ const AboutPage = () => {
                   </div>
                 </div>
                 {/* RIGHT */}
-                <div className="w-1/3 "></div>
-              </div>
-              <div className="flex justify-between h-48">
-                {/* LEFT */}
-                <div className="w-1/3 "></div>
-                {/* CENTER */}
-                <div className="w-1/6 flex justify-center">
-                  {/* LINE */}
-                  <div className="w-1 h-full bg-slate-600 rounded relative">
-                    {/* LINE CIRCLE */}
-                    <div className="absolute w-5 h-5 rounded-full ring-4 ring-sky-400 bg-white -left-2"></div>
-                  </div>
-                </div>
-                {/* RIGHT */}
-                <div className="w-1/3 ">
-                  {/* JOB TITLE */}
-                  <div className="bg-white/10 border border-white/10 backdrop-blur-sm p-3 font-semibold rounded-b-lg rounded-s-lg">
-                    Internship
-                  </div>
-                  {/* JOB DESC */}
-                  <div className="p-3 text-sm italic text-slate-300">
-                    Worked for a health tech project in Australia.
-                  </div>
-                  {/* JOB DATE */}
-                  <div className="p-3 text-sky-400 text-sm font-semibold">
-                    2020 - 2020{" "}
-                  </div>
-                  {/* JOB COMPANY */}
-                  <div className="p-1 rounded bg-white/10 border border-white/10 text-sm font-semibold w-fit">
-                    Mitra Innovation
-                  </div>
-                </div>
-              </div>
+                <div className="w-1/3"></div>
+              </motion.div>
             </motion.div>
           </div>
         </div>

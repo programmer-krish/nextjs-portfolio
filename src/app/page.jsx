@@ -138,7 +138,7 @@ const Homepage = () => {
             className="md:text-xl text-justify text-[#d1d5db]" // light gray color
             variants={itemVariants}>
             As a versatile developer, I craft dynamic and user-focused web and
-            mobile applications that deliver seamless performance. I’m
+            mobile applications that deliver seamless performance. I'm
             experienced in building and deploying scalable systems on AWS and
             Azure, ensuring reliability, security, and efficiency. My goal is to
             blend clean code with smart cloud architecture—turning ideas into
