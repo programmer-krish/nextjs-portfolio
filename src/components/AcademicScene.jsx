@@ -48,10 +48,10 @@ const Computer = () => {
 };
 
 // Person Figure Component
-const Person = ({ position, scale, color, label, rotationSpeed = 1 }) => {
+const Person = ({ position, scale, color, rotationSpeed = 1 }) => {
   const groupRef = useRef();
 
-  useFrame((state) => {
+  useFrame(() => {
     if (groupRef.current) {
       groupRef.current.rotation.y += 0.01 * rotationSpeed;
     }
@@ -137,7 +137,6 @@ const AcademicScene3D = () => {
         speed={0.3}
         scale={[0.6, 0.6, 0.6]}
         color="#f59e0b"
-        label="Child"
         rotationSpeed={0.5}
       />
 
@@ -148,7 +147,6 @@ const AcademicScene3D = () => {
         speed={0.4}
         scale={[0.8, 0.8, 0.8]}
         color="#10b981"
-        label="Teenager"
         rotationSpeed={0.7}
       />
 
@@ -159,7 +157,6 @@ const AcademicScene3D = () => {
         speed={0.5}
         scale={[1, 1, 1]}
         color="#3b82f6"
-        label="Professional"
         rotationSpeed={1}
       />
 

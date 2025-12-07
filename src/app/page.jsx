@@ -30,18 +30,6 @@ const itemVariants = {
   },
 };
 
-// A variant for button hover and tap effects
-const buttonVariants = {
-  hover: {
-    scale: 1.05,
-    transition: {
-      duration: 0.2,
-      yoyo: Infinity, // Makes the animation repeat back and forth
-    },
-  },
-  tap: { scale: 0.95 },
-};
-
 export const handleEmailClick = () => {
   const email = "rkrishnamohan96@gmail.com";
   const subject = encodeURIComponent("Inquiry from your Portfolio");
@@ -138,7 +126,7 @@ const Homepage = () => {
             className="md:text-xl text-justify text-[#d1d5db]" // light gray color
             variants={itemVariants}>
             As a versatile developer, I craft dynamic and user-focused web and
-            mobile applications that deliver seamless performance. I'm
+            mobile applications that deliver seamless performance. I&apos;m
             experienced in building and deploying scalable systems on AWS and
             Azure, ensuring reliability, security, and efficiency. My goal is to
             blend clean code with smart cloud architecture—turning ideas into
