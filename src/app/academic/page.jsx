@@ -1,11 +1,10 @@
 "use client";
-import { motion, useInView, useScroll } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import AcademicCanvas from "@/components/AcademicScene";
 
 const AcademicPage = () => {
   const containerRef = useRef();
-  const { scrollYProgress } = useScroll({ container: containerRef });
 
   const educationRef = useRef();
   const isEducationRefInView = useInView(educationRef, { margin: "-100px" });
@@ -16,7 +15,8 @@ const AcademicPage = () => {
       id: 1,
       degree: "Master of Science in Project Management",
       institution: "University of Bedfordshire",
-      year: "2023",
+      year: "2025",
+      grade: "Passed",
       description:
         "Advanced studies in project management methodologies, strategic planning, and organizational leadership.",
     },
@@ -25,6 +25,7 @@ const AcademicPage = () => {
       degree: "Bachelor of Science in Computing",
       institution: "London Metropolitan University",
       year: "2022",
+      grade: "2.1",
       description:
         "Comprehensive computing degree covering software development, system design, and modern programming paradigms.",
     },
@@ -33,6 +34,7 @@ const AcademicPage = () => {
       degree: "Higher National Diploma in Computing and Systems Development",
       institution: "Pearson | Colombo",
       year: "2018",
+      grade: "Merit",
       description:
         "Diploma focusing on practical computing skills, system development, and foundational programming concepts.",
     },
@@ -188,4 +190,3 @@ const AcademicPage = () => {
 };
 
 export default AcademicPage;
-
