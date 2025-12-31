@@ -9,7 +9,7 @@ import CanvasLoader from "./Loader";
 // Individual face material component
 const FaceMaterial = ({ imagePath, attachIndex }) => {
   const texture = useTexture(imagePath);
-  
+
   return (
     <meshStandardMaterial
       attach={`material-${attachIndex}`}
@@ -25,14 +25,16 @@ const CubeMaterials = ({ images }) => {
   return (
     <>
       {images.map((imagePath, index) => (
-        <Suspense key={index} fallback={
-          <meshStandardMaterial
-            attach={`material-${index}`}
-            color="#ffffff"
-            roughness={0.2}
-            metalness={0.1}
-          />
-        }>
+        <Suspense
+          key={index}
+          fallback={
+            <meshStandardMaterial
+              attach={`material-${index}`}
+              color="#ffffff"
+              roughness={0.2}
+              metalness={0.1}
+            />
+          }>
           <FaceMaterial imagePath={imagePath} attachIndex={index} />
         </Suspense>
       ))}
@@ -43,7 +45,7 @@ const CubeMaterials = ({ images }) => {
 // Single Rubik's cube with images on each face
 const RubiksCube = ({ images, onImageClick, isVisible }) => {
   const cubeRef = useRef();
-  
+
   // Use first 6 images for the 6 faces
   const faceImages = images.slice(0, 6);
 
@@ -58,15 +60,16 @@ const RubiksCube = ({ images, onImageClick, isVisible }) => {
   if (!isVisible) return null;
 
   return (
-    <Suspense fallback={
-      <mesh ref={cubeRef} castShadow receiveShadow>
-        <boxGeometry args={[4, 4, 4]} />
-        <meshStandardMaterial color="#ffffff" />
-      </mesh>
-    }>
-      <mesh 
-        ref={cubeRef} 
-        castShadow 
+    <Suspense
+      fallback={
+        <mesh ref={cubeRef} castShadow receiveShadow>
+          <boxGeometry args={[4, 4, 4]} />
+          <meshStandardMaterial color="#ffffff" />
+        </mesh>
+      }>
+      <mesh
+        ref={cubeRef}
+        castShadow
         receiveShadow
         onClick={(e) => {
           e.stopPropagation();
@@ -103,8 +106,8 @@ const ImageViewer = ({ imagePath, isOpen, onClose }) => {
   return (
     <group position={[0, 0, 0]}>
       {/* Image at same size as cube (4x4) - click to close */}
-      <mesh 
-        ref={meshRef} 
+      <mesh
+        ref={meshRef}
         onClick={onClose}
         onPointerOver={() => {
           document.body.style.cursor = "pointer";
@@ -125,12 +128,19 @@ const ImageViewer = ({ imagePath, isOpen, onClose }) => {
 };
 
 // Main scene
-const RubiksCubeScene = ({ images, onImageClick, isCubeVisible, isFullScreen, fullScreenImage, onCloseFullScreen }) => {
+const RubiksCubeScene = ({
+  images,
+  onImageClick,
+  isCubeVisible,
+  isFullScreen,
+  fullScreenImage,
+  onCloseFullScreen,
+}) => {
   return (
     <group>
       {/* Cube - only visible when not in full screen */}
-      <RubiksCube 
-        images={images} 
+      <RubiksCube
+        images={images}
         onImageClick={onImageClick}
         isVisible={isCubeVisible}
       />
@@ -209,7 +219,7 @@ const RubiksCube3D = () => {
             enableDamping
             dampingFactor={0.05}
           />
-          <RubiksCubeScene 
+          <RubiksCubeScene
             images={images}
             onImageClick={handleImageClick}
             isCubeVisible={isCubeVisible}
@@ -220,7 +230,6 @@ const RubiksCube3D = () => {
           <Preload all />
         </Suspense>
       </Canvas>
-
     </div>
   );
 };
