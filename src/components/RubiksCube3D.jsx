@@ -6,20 +6,35 @@ import { OrbitControls, Preload, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import CanvasLoader from "./Loader";
 
-// Materials for cube faces
-const CubeMaterials = ({ images }) => {
-  const textures = images.map(img => useTexture(img));
+// Individual face material component
+const FaceMaterial = ({ imagePath, attachIndex }) => {
+  const texture = useTexture(imagePath);
   
   return (
+    <meshStandardMaterial
+      attach={`material-${attachIndex}`}
+      map={texture}
+      roughness={0.2}
+      metalness={0.1}
+    />
+  );
+};
+
+// Materials for cube faces
+const CubeMaterials = ({ images }) => {
+  return (
     <>
-      {textures.map((texture, index) => (
-        <meshStandardMaterial
-          key={index}
-          attach={`material-${index}`}
-          map={texture}
-          roughness={0.2}
-          metalness={0.1}
-        />
+      {images.map((imagePath, index) => (
+        <Suspense key={index} fallback={
+          <meshStandardMaterial
+            attach={`material-${index}`}
+            color="#ffffff"
+            roughness={0.2}
+            metalness={0.1}
+          />
+        }>
+          <FaceMaterial imagePath={imagePath} attachIndex={index} />
+        </Suspense>
       ))}
     </>
   );
@@ -59,7 +74,7 @@ const RubiksCube = ({ images, onImageClick, isVisible }) => {
           // Each face has 2 triangles, so divide by 2
           const faceIndex = Math.floor(e.faceIndex / 2);
           if (faceIndex >= 0 && faceIndex < 6 && onImageClick) {
-            onImageClick(faceImages[faceIndex], faceIndex);
+            onImageClick(faceImages[faceIndex]);
           }
         }}
         onPointerOver={(e) => {
@@ -157,7 +172,7 @@ const RubiksCube3D = () => {
   const [fullScreenImage, setFullScreenImage] = useState(null);
   const [isCubeVisible, setIsCubeVisible] = useState(true);
 
-  const handleImageClick = (imagePath, index) => {
+  const handleImageClick = (imagePath) => {
     setFullScreenImage(imagePath);
     setIsFullScreen(true);
     setIsCubeVisible(false);
