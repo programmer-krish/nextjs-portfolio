@@ -4,15 +4,20 @@ import { AnimatePresence } from "framer-motion";
 import Navbar from "./Navbar";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { useTheme } from "@/context/ThemeContext";
 
 const TransitionProvider = ({ children }) => {
   const pathName = usePathname();
+  const { theme } = useTheme();
+
+  const backgroundClass =
+    theme === "black"
+      ? "w-screen h-screen bg-black"
+      : "w-screen h-screen bg-gradient-to-b from-blue-300 to-slate-100";
 
   return (
     <AnimatePresence mode="wait">
-      <div
-        key={pathName}
-        className="w-screen h-screen bg-gradient-to-b from-blue-300 to-slate-100">
+      <div key={pathName} className={backgroundClass}>
         <motion.div
           className="h-screen w-screen fixed bg-black rounded-b-[100px] z-40"
           animate={{ height: "0vh" }}

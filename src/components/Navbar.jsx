@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import NavLink from "./NavLink";
 import { motion } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 const links = [
   { url: "/", title: "Home" },
   { url: "/about", title: "About" },
@@ -14,6 +15,7 @@ const links = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { theme, toggleToBlack, toggleToDefault } = useTheme();
   const topVariants = {
     closed: {
       rotate: 0,
@@ -65,7 +67,10 @@ const Navbar = () => {
     },
   };
   return (
-    <div className="h-full flex items-center justify-between px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48 text-lg">
+    <div
+      className={`h-full flex items-center justify-between px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48 text-lg ${
+        theme === "black" ? "bg-black" : ""
+      }`}>
       {/* LINKS */}
       <div className="hidden md:flex gap-4 w-1/3">
         {links.map((link) => (
@@ -73,16 +78,20 @@ const Navbar = () => {
         ))}
       </div>
 
-      {/** LOGO */}
-      <div className="md:hidden lg:flex  xl:w-1/3 xl:justify-center">
-        <Link
-          href="/"
-          className="text-sm bg-black rounded-md p-1 font-semibold flex items-center justify-center">
-          <span className="text-white mr-1">Krishna</span>
-          <span className="w-12 h-8 rounded bg-white text-black flex items-center justify-center">
+      {/** LOGO - Visible on mobile and large screens */}
+      <div className="flex lg:flex xl:w-1/3 xl:justify-center">
+        <div className="text-sm bg-black rounded-md p-1 font-semibold flex items-center justify-center">
+          <button
+            onClick={toggleToBlack}
+            className="text-white mr-1 cursor-pointer hover:opacity-80 transition-opacity">
+            Krishna
+          </button>
+          <button
+            onClick={toggleToDefault}
+            className="w-12 h-8 rounded bg-white text-black flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity">
             .dev
-          </span>
-        </Link>
+          </button>
+        </div>
       </div>
 
       {/* SOCIAL */}
@@ -117,15 +126,21 @@ const Navbar = () => {
           <motion.div
             variants={topVariants}
             animate={open ? "opened" : "closed"}
-            className="w-10 h-1 bg-black rounded origin-left"></motion.div>
+            className={`w-10 h-1 rounded origin-left ${
+              theme === "black" ? "bg-white" : "bg-black"
+            }`}></motion.div>
           <motion.div
             variants={centerVariants}
             animate={open ? "opened" : "closed"}
-            className="w-10 h-1 bg-black rounded"></motion.div>
+            className={`w-10 h-1 rounded ${
+              theme === "black" ? "bg-white" : "bg-black"
+            }`}></motion.div>
           <motion.div
             variants={bottomVariants}
             animate={open ? "opened" : "closed"}
-            className="w-10 h-1 bg-black rounded origin-left"></motion.div>
+            className={`w-10 h-1 rounded origin-left ${
+              theme === "black" ? "bg-white" : "bg-black"
+            }`}></motion.div>
         </button>
         {/* MENU LIST */}
         {open && (
@@ -133,13 +148,38 @@ const Navbar = () => {
             variants={listVariants}
             initial="closed"
             animate="opened"
-            className="absolute top-0 left-0 w-screen h-screen bg-black text-white flex flex-col items-center justify-center gap-8 text-4xl z-40">
+            className={`absolute top-0 left-0 w-screen h-screen ${
+              theme === "black" ? "bg-black" : "bg-black"
+            } text-white flex flex-col items-center justify-center gap-8 text-4xl z-40`}>
+            {/* Theme Toggle in Mobile Menu */}
+            <motion.div variants={listItemVariants} className="mb-4">
+              <div className="text-sm bg-black rounded-md p-1 font-semibold flex items-center justify-center border-2 border-white">
+                <button
+                  onClick={() => {
+                    toggleToBlack();
+                    setOpen(false);
+                  }}
+                  className="text-white mr-1 cursor-pointer hover:opacity-80 transition-opacity px-2">
+                  Krishna
+                </button>
+                <button
+                  onClick={() => {
+                    toggleToDefault();
+                    setOpen(false);
+                  }}
+                  className="w-12 h-8 rounded bg-white text-black flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity">
+                  .dev
+                </button>
+              </div>
+            </motion.div>
             {links.map((link) => (
               <motion.div
                 variants={listItemVariants}
                 className=""
                 key={link.title}>
-                <Link href={link.url}>{link.title}</Link>
+                <Link href={link.url} onClick={() => setOpen(false)}>
+                  {link.title}
+                </Link>
               </motion.div>
             ))}
           </motion.div>

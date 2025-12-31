@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
-import EarthCanvas from "@/components/Earth";
+import RubiksCube3D from "@/components/RubiksCube3D";
 import Snowfall from "react-snowfall"; // Import the Snowfall component
+import { useTheme } from "@/context/ThemeContext";
 
 // A container variant for staggering child animations
 const containerVariants = {
@@ -41,6 +42,12 @@ export const handleEmailClick = () => {
 
 const Homepage = () => {
   const [textColor, setTextColor] = useState("#d96c23");
+  const { theme } = useTheme();
+
+  const backgroundClass =
+    theme === "black"
+      ? "absolute inset-0 bg-black"
+      : "absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]";
 
   return (
     <motion.div
@@ -49,28 +56,34 @@ const Homepage = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1, delay: 0.5 }}>
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]"
-        animate={{
-          backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
-        }}
+        className={backgroundClass}
+        animate={
+          theme !== "black"
+            ? {
+                backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
+              }
+            : {}
+        }
         transition={{
           duration: 15,
-          repeat: Infinity,
+          repeat: theme !== "black" ? Infinity : 0,
           ease: "linear",
         }}
         style={{
-          backgroundSize: "200% 200%",
+          backgroundSize: theme !== "black" ? "200% 200%" : "100% 100%",
           zIndex: 0,
         }}
       />
 
-      {/* Add the Snowfall component here */}
-      <Snowfall
-        // The color of the snowflake.
-        color="#dee4eb"
-        style={{ position: "fixed", width: "100vw", height: "100vh" }}
-        snowflakeCount={250}
-      />
+      {/* Add the Snowfall component here - only show in default theme */}
+      {theme !== "black" && (
+        <Snowfall
+          // The color of the snowflake.
+          color="#dee4eb"
+          style={{ position: "fixed", width: "100vw", height: "100vh" }}
+          snowflakeCount={250}
+        />
+      )}
       <div className="relative z-10 h-full flex flex-col lg:flex-row px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48">
         {/* {Image container} */}
         <motion.div
@@ -78,7 +91,7 @@ const Homepage = () => {
           initial={{ x: "-100vw", opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1, ease: "easeInOut" }}>
-          <EarthCanvas />
+          <RubiksCube3D />
         </motion.div>
         {/* {Text container} */}
         <motion.div
@@ -123,7 +136,9 @@ const Homepage = () => {
 
           {/* {Desc} */}
           <motion.p
-            className="md:text-xl text-justify text-[#d1d5db]" // light gray color
+            className={`md:text-xl text-justify ${
+              theme === "black" ? "text-white" : "text-[#d1d5db]"
+            }`}
             variants={itemVariants}>
             As a versatile developer, I craft dynamic and user-focused web and
             mobile applications that deliver seamless performance. I&apos;m
